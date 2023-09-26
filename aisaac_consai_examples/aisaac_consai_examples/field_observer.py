@@ -825,6 +825,11 @@ class FieldObserver(Node):
                     their_robot_pos = their_robots_pos[their_robot_id]
                     their_robot_pos_trans = trans.transform(their_robot_pos)
                     their_robot_vel = their_robots_vel[their_robot_id]
+                    
+                    ### Add by shimizu
+                    if their_robot_vel is None:
+                        continue
+                    ### 
 
                     # 共有点を持つか判定
                     common_point = -1
@@ -906,6 +911,14 @@ class FieldObserver(Node):
                 if not math.isclose(vel_norm, 0.0, abs_tol=0.000001):  # ゼロ除算回避
                     estimated_displacement = (abs(target_robot_vel.x) *
                                               dt + robot_r) * target_robot_vel.x / vel_norm
+
+
+            ### Add by shimizu
+            if target_robot_pos is None or my_robot_pos is None:
+                continue
+            ###
+
+
 
             if my_robot_pos.x < target_robot_pos.x + estimated_displacement:
                 forward_robots_id.append(robot_id)
