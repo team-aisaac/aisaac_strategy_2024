@@ -269,28 +269,28 @@ namespace aisaac_consai_robot_controller
                                         const consai_msgs::msg::State2D &goal_pose,
                                         aisaac_msgs::msg::AisaacStrategyMsg &msg)
   {
-    msg.robot_id = robot_id;
-    msg.dribble_advance = true;
-    msg.dribble_enabble_error = 100;       // [TODO]ボールをドリブルする目標値に対する許容誤差(mm)
-    msg.ball_target_allowable_error = 100; // [TODO]ボールをキックする目標値に対する許容誤差(mm)
-    msg.free_kick_flag = false;            // フリーキックか？
-    msg.kick_straight = true;              // trueでストレートキック,falseでtipキック
-    msg.ball_kick_state = false;
-    msg.dribble_state = false;
+    // msg.robot_id = robot_id;
+    // msg.dribble_advance = true;
+    // msg.dribble_enabble_error = 100;       // [TODO]ボールをドリブルする目標値に対する許容誤差(mm)
+    // msg.ball_target_allowable_error = 100; // [TODO]ボールをキックする目標値に対する許容誤差(mm)
+    // msg.free_kick_flag = false;            // フリーキックか？
+    // msg.kick_straight = true;              // trueでストレートキック,falseでtipキック
+    // msg.ball_kick_state = false;
+    // msg.dribble_state = false;
 
-    if (kick_power > 0)
-    {
-      msg.ball_kick_state = true;
-    }
-    if (dribble_power > 0)
-    {
-      msg.dribble_state = true;
-    }
-    msg.ball_kick = msg.ball_kick_state; // ボールを実際にキックするか？
+    // if (kick_power > 0)
+    // {
+    //   msg.ball_kick_state = true;
+    // }
+    // if (dribble_power > 0)
+    // {
+    //   msg.dribble_state = true;
+    // }
+    // msg.ball_kick = msg.ball_kick_state; // ボールを実際にキックするか？
 
-    // [TODO] 目標点=キック目標点. ドリブルからの連続キックに対応していない
-    msg.ball_target = goal_pose;
-    msg.robot_target = goal_pose;
+    // // [TODO] 目標点=キック目標点. ドリブルからの連続キックに対応していない
+    // msg.ball_target = goal_pose;
+    // msg.robot_target = goal_pose;
   }
 
   void Controller::on_timer_pub_control_command(const unsigned int robot_id)
