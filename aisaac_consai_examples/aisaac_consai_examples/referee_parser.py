@@ -25,6 +25,8 @@ from robocup_ssl_msgs.msg import TrackedBall
 from robocup_ssl_msgs.msg import TrackedFrame
 from robocup_ssl_msgs.msg import Vector3
 
+#### Add by shimizu
+from aisaac_msgs.msg import AisaacReferee
 
 # refereeトピックを解読するノード
 class RefereeParser(Node):
@@ -105,6 +107,24 @@ class RefereeParser(Node):
             TrackedFrame, 'detection_tracked', self._detection_tracked_callback, 10)
         self._sub_referee = self.create_subscription(
             Referee, 'referee', self._referee_callback, 10)
+        
+
+        ### Add by shimizu
+        self._pub_aisaac_referee = self.create_publisher(AisaacReferee, 'aisaac_referee', 10)
+
+    ### Add by shimizu
+    def _publish_aisaac_referee(self) -> None:
+        # 解析したレフェリー情報をpublishする
+        msg = AisaacReferee()
+        msg.halt_flag = self.halt()
+        msg.stop_game_flag = self.stop()
+        msg.ball_placement_flag = self.our_ball_placement() or self.their_ball_placement()
+        msg.ball_placement_tema = self.our_ball_placement()
+        msg.in_game = self.inplay() \
+            or self.our_penalty_inplay() \
+            or self.their_penalty_inplay()
+        self._pub_aisaac_referee.publish(msg)
+
 
     def _detection_tracked_callback(self, msg):
         if len(msg.balls) > 0:
@@ -143,6 +163,9 @@ class RefereeParser(Node):
 
         # 解釈したレフェリー情報をpublishする
         self._publish_parsed_referee()
+        
+        ### Add by shimizu
+        self._publish_aisaac_referee()
 
     def _publish_parsed_referee(self):
         # 解析したレフェリー情報をpublishする

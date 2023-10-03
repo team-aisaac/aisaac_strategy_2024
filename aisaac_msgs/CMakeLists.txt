@@ -21,7 +21,7 @@ endif()
 # find_package(rosidl_default_generators REQUIRED)
 
 # set(msg_files
-#   "msg/AisaacStrategyMsg.msg"
+#   "msg/AisaacStrategy.msg"
 # )
 # rosidl_generate_interfaces(${PROJECT_NAME}
 #   ${msg_files}
@@ -52,7 +52,8 @@ find_package(consai_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 set(msg_files
-  "msg/AisaacStrategyMsg.msg"
+  "msg/AisaacStrategy.msg"
+  "msg/AisaacReferee.msg"
 )
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}

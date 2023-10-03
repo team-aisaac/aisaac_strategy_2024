@@ -26,4 +26,5 @@ void timerTask()
     // 出力
     omniDrive(&output_velocity_robot);
     dribblerDrive();
+    kickerDrive();
 }

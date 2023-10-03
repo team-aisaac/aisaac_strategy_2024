@@ -33,7 +33,7 @@
 #include "robocup_ssl_msgs/msg/referee.hpp"
 #include "robocup_ssl_msgs/msg/tracked_frame.hpp"
 #include "robocup_ssl_msgs/msg/tracked_robot.hpp"
-#include "aisaac_msgs/msg/aisaac_strategy_msg.hpp"
+#include "aisaac_msgs/msg/aisaac_strategy.hpp"
 
 namespace aisaac_consai_robot_controller
 {
@@ -118,11 +118,11 @@ namespace aisaac_consai_robot_controller
     double param_control_a_theta_;
 
     /// add by shimizu
-    rclcpp::Publisher<aisaac_msgs::msg::AisaacStrategyMsg>::SharedPtr pub_aisaac_strategy_msg_;
+    rclcpp::Publisher<aisaac_msgs::msg::AisaacStrategy>::SharedPtr pub_aisaac_strategy_msg_;
     void pack_aisaac_strategy(const unsigned int robot_id,
                               double dribble_power, double kick_power,
                               const consai_msgs::msg::State2D &goal_pose,
-                              aisaac_msgs::msg::AisaacStrategyMsg &msg);
+                              aisaac_msgs::msg::AisaacStrategy &msg);
   };
 
 } // namespace aisaac_consai_robot_controller
