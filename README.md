@@ -59,8 +59,8 @@ bash run.sh
 ```
 1. ros実行
 ```
-ROS_DOMAIN_ID=1 ros2 launch aisaac_consai_robot_controller start.launch.py game:=true
-ROS_DOMAIN_ID=2 ros2 launch aisaac_consai_robot_controller start.launch.py game:=true yellow:=true invert:=true
+ROS_DOMAIN_ID=1 ros2 launch aisaac_consai_examples start.launch.py game:=true
+ROS_DOMAIN_ID=2 ros2 launch aisaac_consai_examples start.launch.py game:=true yellow:=true invert:=true
 ```
 
 
