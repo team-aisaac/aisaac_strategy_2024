@@ -1,0 +1,3 @@
+[submodule "aisaac_manual/ros2_tcp_interface"]
+	path = aisaac_manual/ros2_tcp_interface
+	url = https://github.com/ryuzou/ros2_tcp_interface
