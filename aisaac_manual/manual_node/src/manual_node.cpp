@@ -8,12 +8,10 @@
 #include "manual_node/manual_node.hpp"
 
 #include "std_msgs/msg/string.hpp"
-#include "std_srvs/srv/set_bool.hpp"
 #include "nlohmann/json.hpp"
-#include "utilities/can_utils.hpp"
 #include "tcp_interface/srv/tcp_socket_i_ctrl.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "std_msgs/msg/float32.hpp"
+#include "aisaac_msgs/msg/aisaac_manual_control.hpp"
 
 using json = nlohmann::json;
 
@@ -25,11 +23,8 @@ namespace manual_node {
 
         declare_parameter("interval_ms", 10);
         interval_ms = this->get_parameter("interval_ms").as_int();
-        _publisher_cmd_vel = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", _qos);
+        _publisher_manual_control = this->create_publisher<aisaac_msgs::msg::AisaacManualControl>("aisaac_manual_control", _qos);
         client_ = this->create_client<tcp_interface::srv::TcpSocketICtrl>("/tcp_interface/tcp_register");
-        manual_instruction["x"] = 0;
-        manual_instruction["y"] = 0;
-        manual_instruction["rad"] = 0;
         while (!client_->wait_for_service(1s)){
             if(!rclcpp::ok()){
                 RCLCPP_ERROR(this->get_logger(), "Manual Node Client interrupted while waiting for TCP service");
@@ -62,7 +57,7 @@ namespace manual_node {
         }
         catch (std::exception &e)
         {
-            RCLCPP_INFO(this->get_logger(), "ERROR AT ManualNode::_subscriber_callback_tcp_8011, IGNORING");
+            RCLCPP_INFO(this->get_logger(), "Error at parsing json, ignoring");
         }
     }
 
@@ -70,15 +65,27 @@ namespace manual_node {
         if (!this->tcp8011_flag){
             return;
         }
-        float x_val = manual_instruction["x"];
-        float y_val = manual_instruction["y"];
-        float rad = manual_instruction["rad"];
-        RCLCPP_INFO(this->get_logger(), "x:%f, y:%f, rad:%f", x_val, y_val, rad);
-        auto msg = std::make_shared<geometry_msgs::msg::Twist>();
-        msg->linear.x = x_val;
-        msg->linear.y = y_val;
-        msg->angular.z = rad;
-        _publisher_cmd_vel->publish(*msg);
+
+        RCLCPP_INFO(this->get_logger(), "content:%s", manual_instruction.dump().c_str());
+        auto manual_msg = std::make_shared<aisaac_msgs::msg::AisaacManualControl>();
+
+        try
+        {
+            manual_msg->robot_id = manual_instruction["robot_id"].get<uint8_t>();
+            manual_msg->robot_velocity_target.x = manual_instruction["target_vel"]["x"].get<double>();
+            manual_msg->robot_velocity_target.y = manual_instruction["target_vel"]["y"].get<double>();
+            manual_msg->robot_velocity_target.theta = manual_instruction["target_vel"]["theta"].get<double>();
+            manual_msg->dribbler_on = manual_instruction["dribbler_on"].get<uint8_t>();
+            manual_msg->kick_straight = manual_instruction["kick_straight"].get<uint8_t>();
+            manual_msg->kick_tip = manual_instruction["kick_tip"].get<uint8_t>();
+            manual_msg->emergency_stop = manual_instruction["emergency_stop"].get<uint8_t>();
+        }
+        catch (const json::exception& e)
+        {
+            RCLCPP_INFO(this->get_logger(), "Error at parsing json: %s", e.what());
+            return;
+        }
+        _publisher_manual_control->publish(*manual_msg);
     }
 
     void ManualNode::_callback_response_tcp8011(rclcpp::Client<tcp_interface::srv::TcpSocketICtrl>::SharedFuture future) {

@@ -9,12 +9,11 @@
 #include <std_msgs/msg/float32.hpp>
 
 #include "std_msgs/msg/string.hpp"
-#include "std_srvs/srv/set_bool.hpp"
 #include "tcp_interface/srv/tcp_socket_i_ctrl.hpp"
 #include "tcp_interface/msg/tcp_socket.hpp"
-#include "geometry_msgs/msg/twist.hpp"
 #include "visibility_control.h"
 #include "nlohmann/json.hpp"
+#include "aisaac_msgs/msg/aisaac_manual_control.hpp"
 
 using json = nlohmann::json;
 
@@ -25,7 +24,7 @@ namespace manual_node {
         int64_t interval_ms;
 
         rclcpp::Subscription<std_msgs::msg::String>::SharedPtr _subscription_tcp_8011;
-        rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr _publisher_cmd_vel;
+        rclcpp::Publisher<aisaac_msgs::msg::AisaacManualControl>::SharedPtr _publisher_manual_control;
         rclcpp::TimerBase::SharedPtr _pub_timer;
 
         bool tcp8011_flag;
