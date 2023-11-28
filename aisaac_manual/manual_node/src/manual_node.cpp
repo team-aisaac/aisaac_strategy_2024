@@ -66,7 +66,7 @@ namespace manual_node {
             return;
         }
 
-        RCLCPP_INFO(this->get_logger(), "content:%s", manual_instruction.dump().c_str());
+        //RCLCPP_INFO(this->get_logger(), "content:%s", manual_instruction.dump().c_str());
         auto manual_msg = std::make_shared<aisaac_msgs::msg::AisaacManualControl>();
 
         try
