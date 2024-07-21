@@ -24,6 +24,7 @@ find_package(rclcpp_action REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(robocup_ssl_msgs REQUIRED)
 find_package(aisaac_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 include_directories(include)
 
@@ -71,6 +72,7 @@ ament_export_dependencies(rclcpp)
 ament_export_dependencies(rclcpp_action)
 ament_export_dependencies(rclcpp_components)
 ament_export_dependencies(robocup_ssl_msgs)
+ament_export_dependencies(geometry_msgs)
 
 ament_export_include_directories(include)
 ament_export_libraries(controller_component)
