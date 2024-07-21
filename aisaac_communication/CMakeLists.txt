@@ -17,14 +17,15 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(consai_frootspi_msgs REQUIRED)
-find_package(consai_msgs REQUIRED)
+#find_package(consai_frootspi_msgs REQUIRED)
+#find_package(consai_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(robocup_ssl_msgs REQUIRED)
 find_package(aisaac_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
