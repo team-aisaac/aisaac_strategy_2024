@@ -298,10 +298,14 @@ namespace aisaac_consai_robot_controller
     msg.target_ball.y = goal_pose.y + kick_distance * sinf(goal_pose.theta);
 
     //[TODO] ドリブルの目標地点。とりあえず、現在値とする
-    msg.dribble_target_ball = goal_pose;
+    msg.dribble_target_ball.x = goal_pose.x;
+    msg.dribble_target_ball.y = goal_pose.y;
+    msg.dribble_target_ball.theta = goal_pose.theta;
 
     // ロボットの目標地点。これは正しい
-    msg.robot_position_target = goal_pose;
+    msg.robot_position_target.x = goal_pose.x;
+    msg.robot_position_target.y = goal_pose.y;
+    msg.robot_position_target.theta = goal_pose.theta;
   }
 
   void Controller::on_timer_pub_control_command(const unsigned int robot_id)
